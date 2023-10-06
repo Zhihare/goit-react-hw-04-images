@@ -1,33 +1,40 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { ModalOverlay, Modalwindow } from './modalStyle'
 
-export default class Modal extends Component {
-	componentDidMount() {
-		window.addEventListener('keydown', this.onKeyDown);
-	}
+export function Modal({ onCloseModal, largeImageURL }) {
+	// componentDidMount() {
+	// 	window.addEventListener('keydown', this.onKeyDown);
+	// }
 
-	componentWillUnmount() {
-		window.removeEventListener('keydown', this.onKeyDown);
-	}
+	// componentWillUnmount() {
+	// 	window.removeEventListener('keydown', this.onKeyDown);
+	// }
+	useEffect(() => {
+		window.addEventListener('keydown', onKeyDown);
+		return () => {
+			window.removeEventListener('keydown', onKeyDown);
+		}
+	});
 
-	onKeyDown = event => {
+
+	const onKeyDown = event => {
 		if (event.code === 'Escape') {
-			this.props.onCloseModal();
+			onCloseModal();
 		}
 	};
 
-	onOverlayClick = event => {
+	const onOverlayClick = event => {
 		if (event.currentTarget === event.target) {
-			this.props.onCloseModal();
+			onCloseModal();
 		}
 	};
-	render() {
-		return (
-			<ModalOverlay onClick={this.onOverlayClick}>
-				<Modalwindow>
-					<img src={this.props.largeImageURL} alt="" />
-				</Modalwindow>
-			</ModalOverlay>
-		)
-	}
+
+	return (
+		<ModalOverlay onClick={onOverlayClick}>
+			<Modalwindow>
+				<img src={largeImageURL} alt="" />
+			</Modalwindow>
+		</ModalOverlay>
+	)
 }
+

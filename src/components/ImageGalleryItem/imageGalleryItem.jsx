@@ -1,15 +1,15 @@
 
-import React, { Component } from 'react'
+import React from 'react'
 import { ImageGalleryItemImg, ImageGalleryItemLi } from './imageGalleryItemStyle'
 
-export default class ImageGalleryItem extends Component {
+export function ImageGalleryItem({ onOpenModal, largeImageURL, id, webformatURL }) {
 
 
-	render() {
-		return (
-			<ImageGalleryItemLi onClick={() => this.props.onOpenModal(this.props.largeImageURL)} key={this.props.id}>
-				<ImageGalleryItemImg src={this.props.webformatURL} alt="" />
-			</ImageGalleryItemLi>
-		);
-	};
-}
+
+	return (
+		<ImageGalleryItemLi onClick={() => onOpenModal(largeImageURL)} key={id}>
+			<ImageGalleryItemImg src={webformatURL} alt="" />
+		</ImageGalleryItemLi>
+	);
+};
+
