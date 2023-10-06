@@ -22,14 +22,18 @@ export function App() {
 
   const handleFormSubmit = Search => {
     setSearchText(Search);
+    setPage(1);
+    setSearch([]);
   }
 
   const fetchSearchPhoto = useCallback(async (searchQuery, pageNum) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const { hits, total } = await fetchPhoto(searchQuery, pageNum);
-      setSearch(hits);
       setTotal(total);
+      setSearch(prevState =>
+        [...prevState, ...hits]
+      );
 
     } catch (error) {
       setError(error.message);
@@ -39,13 +43,10 @@ export function App() {
     }
   }, [])
 
+
   const loadMore = async () => {
     try {
       let nextPage = page + 1;
-      const { hits } = await fetchPhoto(searchText, nextPage);
-      setSearch(prevState =>
-        [...prevState, ...hits]
-      );
       setPage(nextPage);
       setIsLoading(true);
 
@@ -57,11 +58,11 @@ export function App() {
     }
   }
 
+
   useEffect(() => {
-    if (searchText === '' || page !== 1) {
-      return;
+    if (searchText !== '' || page !== 1) {
+      fetchSearchPhoto(searchText, page);
     }
-    fetchSearchPhoto(searchText, page);
   }, [searchText, page, fetchSearchPhoto]);
 
 
@@ -82,7 +83,7 @@ export function App() {
 
 
   const showPost = Array.isArray(search) && search.length;
-  console.log(showPost);
+
   let maxPage = total / 12;
   return (
     <AppContainer>
@@ -90,7 +91,7 @@ export function App() {
 
       <ImageGallery>
         {error && <p>{error}</p>}
-        {showPost > 0 && search.map(photo => {
+        {showPost !== true && search.map(photo => {
           return (
             <ImageGalleryItem onOpenModal={onOpenModal}
               key={photo.id}
@@ -103,7 +104,7 @@ export function App() {
       </ImageGallery>
       {isLoading && (
         <Loader />)}
-      {showPost > 0 && page <= maxPage &&
+      {showPost !== true && page <= maxPage &&
         <Button onloadMore={loadMore} />
       }
 

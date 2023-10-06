@@ -5,15 +5,11 @@ import { SearchBarForm, SearchBarHeader, SearchBarButton, SerchBarInput } from '
 
 export function SearchBar({ handleFormSubmit }) {
 	const [search, setSearch] = useState(null);
-	// state = {
-	// 	search: null,
-	// };
+
 
 	const handleSearchChange = event => {
 		setSearch(event.currentTarget.value.toLowerCase());
-		// this.setState({
-		// 	search: event.currentTarget.value.toLowerCase()
-		// });
+
 	}
 
 
@@ -26,7 +22,6 @@ export function SearchBar({ handleFormSubmit }) {
 		}
 		handleFormSubmit(search);
 		setSearch(null);
-		// this.setState({ search: null });
 	}
 
 
