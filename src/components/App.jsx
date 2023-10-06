@@ -18,22 +18,10 @@ export function App() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  // state = {
-  //   searchText: null,
-  //   search: null,
-  //   modal: {
-  //     isOpen: false,
-  //     data: null,
-  //   },
-  //   isLoading: false,
-  //   error: null,
-  //   page: 1,
-  //   total: null,
-  // }
+
 
   const handleFormSubmit = Search => {
     setSearchText(Search);
-    // this.setState({ searchText: Search });
   }
 
   const fetchSearchPhoto = useCallback(async (searchQuery, pageNum) => {
@@ -42,20 +30,12 @@ export function App() {
       const { hits, total } = await fetchPhoto(searchQuery, pageNum);
       setSearch(hits);
       setTotal(total);
-      // this.setState({ isLoading: true });
-      // const { hits, total } = await fetchPhoto(this.state.searchText, 1);
-      // this.setState({
-      //   search: hits,
-      //   page: 1,
-      //   total: total,
-      // });
+
     } catch (error) {
       setError(error.message);
-      // this.setState({ error: error.message });
+
     } finally {
       setIsLoading(false);
-      // this.setState({ isLoading: false });
-
     }
   }, [])
 
@@ -69,21 +49,11 @@ export function App() {
       setPage(nextPage);
       setIsLoading(true);
 
-      // let nextPage = this.state.page + 1;
-      // const { hits } = await fetchPhoto(this.state.searchText, nextPage);
-      // this.setState(prevState => {
-      //   return {
-      //     search: [...prevState.search, ...hits],
-      //     page: nextPage,
-      //     isLoading: true,
-      //   }
-      // })
     } catch (error) {
       setError(error.message);
-      // this.setState({ error: error.message });
+
     } finally {
       setIsLoading(false);
-      // this.setState({ isLoading: false });
     }
   }
 
@@ -94,34 +64,17 @@ export function App() {
     fetchSearchPhoto(searchText, page);
   }, [searchText, page, fetchSearchPhoto]);
 
-  // componentDidUpdate(_, prevState) {
-  //   if (prevState.searchText !== this.state.searchText) {
-  //     this.fetchSearchPhoto();
-  //   }
-  // }
 
 
 
   const onOpenModal = (modalData) => {
     setIsOpenModal(true);
     setOpenModalData(modalData);
-    // this.setState({
-    //   modal: {
-    //     isOpen: true,
-    //     data: modalData,
-    //   },
-    // });
   }
 
   const onCloseModal = () => {
     setIsOpenModal(false);
     setOpenModalData(null);
-    // this.setState({
-    //   modal: {
-    //     isOpen: false,
-    //     data: null,
-    //   },
-    // });
   }
 
 
